@@ -22,11 +22,10 @@ class Observatorio:
         return {"mensagem": "Projeto adicionado com sucesso.", "status": "successo"}
     
     def listar_projetos(self):
-        return [{
-            "titulo": p.titulo,
-            "curso": p.curso,
-            "periodo": p.periodo
-        } for p in self.projetos]
+        resultado = ""
+        for p in self.projetos:
+            resultado += str({"titulo": p.titulo, "curso": p.curso, "periodo": p.periodo}) + "\n"
+        return resultado
     
     def buscar_projeto(self, titulo):
         for projeto in self.projetos:
@@ -34,14 +33,16 @@ class Observatorio:
                 return [{
                     "titulo": projeto.titulo,
                     "curso": projeto.curso,
-                    "periodo": projeto.periodo
-                }]
+                    "periodo": projeto.periodo,
+                }] 
         return {"mensagem": "Projeto não encontrado.", "status": "erro"}
     
     def filtrar_projetos_por_curso(self, curso):
-        projetos_filtrados = [p.to_dict() 
-            for p in self.projetos if p.curso.lower() == curso.lower()]     
-        return projetos_filtrados
+        resultado = ""
+        for p in self.projetos:
+            if p.curso.lower() == curso.lower():
+                resultado += str({"titulo": p.titulo, "curso": p.curso, "periodo": p.periodo}) + "\n"
+        return resultado
 
     def mostrar_descricao(self, titulo):
         for projeto in self.projetos:
@@ -98,7 +99,7 @@ def executar_rota(rota, metodo, dados=None):
         if p == "descricao":
             descricao = dados["descricao"]
     
-    dados = {"titulo": titulo, "curso": curso, "periodo": periodo, "descricao": descricao}
+    dados = {"titulo": titulo, "curso": curso, "periodo": periodo, "descricao": descricao} 
 
     if rota == "/projetos" and metodo == "GET":
         return get_projetos()
@@ -122,6 +123,9 @@ def executar_rota(rota, metodo, dados=None):
 
     
 
+
+    
+    
 
     
     
